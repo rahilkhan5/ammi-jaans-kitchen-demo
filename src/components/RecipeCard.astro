@@ -1,0 +1,150 @@
+---
+// One recipe in the index: the photo at the fixed 4:3 crop, its category bar
+// clipped onto the photo's bottom edge, then the name and the facts.
+import Icon from './Icon.astro';
+import { CATEGORIES, MEALTIMES, photoInfo } from '../data/recipes.js';
+import { minutes } from '../lib/recipe.js';
+
+interface Props {
+  recipe: any;
+  eager?: boolean;
+}
+const { recipe: r, eager = false } = Astro.props;
+const photo = photoInfo[r.slug];
+const search = [r.title, r.urdu, CATEGORIES[r.category].label, ...r.ingredients.map((x: any) => x.i)].join(' ').toLowerCase();
+---
+
+<li class="card" data-cat={r.category} data-recipe={r.slug} data-mealtime={r.mealtime} data-words={search}>
+  <a class="card-link" href={`/recipes/${r.slug}/`}>
+    <div class="card-photo">
+      <img
+        src={`/photos/${r.slug}-600.webp`}
+        srcset={`/photos/${r.slug}-600.webp 600w, /photos/${r.slug}-1200.webp 1200w`}
+        sizes="(min-width: 1100px) 400px, (min-width: 700px) 46vw, 92vw"
+        width="600"
+        height="450"
+        alt={photo.alt}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        style={`object-position: ${photo.pos}`}
+      />
+    </div>
+    <span class="card-bar">{CATEGORIES[r.category].label}</span>
+    <div class="card-body">
+      <h3>{r.title}</h3>
+      <p class="card-urdu urdu" lang="ur" dir="rtl">{r.urdu}</p>
+      <p class="card-facts">
+        <span><Icon name="clock" /><span class="num">{minutes(r.prep + r.cook)}</span></span>
+        <span><Icon name="people" /><span class="num">Serves {r.serves}</span></span>
+        <span class="card-meal">{MEALTIMES[r.mealtime]}</span>
+      </p>
+    </div>
+  </a>
+  <span class="card-saved" data-card-saved hidden><Icon name="saved" label="Saved on this phone" /></span>
+</li>
+
+<style>
+  .card {
+    position: relative;
+    background: var(--panel);
+    transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--lift);
+    }
+  }
+
+  .card-link {
+    display: grid;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-link:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .card-photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--field-deep);
+  }
+
+  .card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Half on the photo, half on the panel: the bar marks the seam, not the food. */
+  .card-bar {
+    position: relative;
+    z-index: 1;
+    justify-self: start;
+    height: 34px;
+    margin: -17px 0 0 var(--space-4);
+    padding: var(--space-2) var(--space-3);
+    background: var(--cat);
+    font-weight: 800;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .card-body {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4) var(--space-5);
+  }
+
+  .card-urdu {
+    justify-self: start;
+    font-size: var(--step-0);
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+
+  .card-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .card-facts > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-facts :global(.icon) {
+    width: 18px;
+  }
+
+  .card-meal {
+    font-weight: 700;
+  }
+
+  .card-saved {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .card-saved :global(.icon) {
+    width: 22px;
+  }
+</style>

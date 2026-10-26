@@ -1,0 +1,1270 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import RecipeCard from '../../components/RecipeCard.astro';
+import { cook, CATEGORIES, MEALTIMES, recipes, photoInfo, credits, comments } from '../../data/recipes.js';
+import { minutes, longDate, splitTitle, formatAmount, formatUnit } from '../../lib/recipe.js';
+
+export function getStaticPaths() {
+  return recipes.map((r) => ({ params: { slug: r.slug }, props: { recipe: r } }));
+}
+
+const { recipe: r } = Astro.props;
+const [first, last] = splitTitle(r.title);
+const photo = photoInfo[r.slug];
+const credit = credits[r.slug];
+const said = comments.filter((c) => c.slug === r.slug);
+const byDate = [...recipes].sort((a, b) => b.date.localeCompare(a.date));
+const next = [...byDate.filter((x) => x.category === r.category && x.slug !== r.slug), ...byDate.filter((x) => x.category !== r.category)].slice(0, 3);
+---
+
+<Base title={`${r.title} recipe | ${cook.name}`} description={r.intro} image={`/photos/${r.slug}-1200.webp`}>
+  <article class="recipe" data-cat={r.category} data-slug={r.slug} data-serves={r.serves} data-title={r.title}>
+    <div class="page">
+      <a class="back" href="/#recipes"><Icon name="arrow-left" />All recipes</a>
+    </div>
+
+    <header class="r-head page">
+      <div class="r-words">
+        <h1>
+          {first && <span class="r-first">{first}</span>} <span class="on-bar">{last}</span>
+        </h1>
+        <p class="r-urdu urdu" lang="ur" dir="rtl">{r.urdu}</p>
+        <p class="r-intro">{r.intro}</p>
+        <dl class="r-facts">
+          <div><dt>Prep</dt><dd class="num">{minutes(r.prep)}</dd></div>
+          <div><dt>Cook</dt><dd class="num">{minutes(r.cook)}</dd></div>
+          <div><dt>Serves</dt><dd class="num">{r.serves}</dd></div>
+          <div><dt>Kind</dt><dd>{CATEGORIES[r.category].label}</dd></div>
+        </dl>
+        <p class="r-rating"><Icon name="star" /><span><span class="num">{r.rating}</span> from <span class="num">{r.votes}</span> ratings, made up for the demo. Posted <span class="num">{longDate(r.date)}</span>, good for {MEALTIMES[r.mealtime].toLowerCase()}.</span></p>
+        <div class="tools">
+          <button class="tool" type="button" data-save aria-pressed="false">
+            <span class="tool-icon off"><Icon name="save" /></span>
+            <span class="tool-icon on"><Icon name="saved" /></span>
+            <span data-save-label>Save</span>
+          </button>
+          <button class="tool" type="button" data-wake aria-pressed="false" aria-describedby="wake-why">
+            <Icon name="screen" />
+            <span>Keep screen on</span>
+          </button>
+          <button class="tool" type="button" data-share hidden>
+            <Icon name="share" />
+            <span>Share</span>
+          </button>
+        </div>
+        <p class="tool-why" id="wake-why" data-wake-why hidden></p>
+        <p class="tool-note" aria-live="polite" data-tool-note></p>
+      </div>
+      <figure class="r-photo">
+        <div class="r-photo-frame">
+          <img
+            src={`/photos/${r.slug}-1200.webp`}
+            srcset={`/photos/${r.slug}-600.webp 600w, /photos/${r.slug}-1200.webp 1200w`}
+            sizes="(min-width: 900px) 50vw, 100vw"
+            width="1200"
+            height="900"
+            alt={photo.alt}
+            fetchpriority="high"
+            style={`object-position: ${photo.pos}`}
+          />
+          <span class="r-chip chip-bar" aria-hidden="true"></span>
+          <span class="r-chip chip-ink" aria-hidden="true"></span>
+        </div>
+        <figcaption>Photo: <a href={credit.url} rel="noopener">{credit.by}</a> on Unsplash</figcaption>
+      </figure>
+    </header>
+
+    <div class="resume page" data-resume hidden>
+      <Icon name="flag" />
+      <p>Welcome back. You stopped at step <strong class="num" data-resume-step>1</strong>.</p>
+      <div class="resume-actions">
+        <a class="button" href="#method" data-resume-go>
+          <span>Go to that step</span>
+          <span class="tab"><Icon name="arrow" /></span>
+        </a>
+        <button class="button plain" type="button" data-reset>
+          <span>Start again</span>
+          <span class="tab"><Icon name="close" /></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="r-body page">
+      <section class="ingredients" id="ingredients" aria-labelledby="ing-title">
+        <div class="ing-head">
+          <h2 id="ing-title">Ingredients</h2>
+          <div class="servings" role="group" aria-label="Servings">
+            <button type="button" data-serv="-1" aria-label="Fewer people"><Icon name="minus" /></button>
+            <output aria-live="polite" data-serv-out><span class="num" data-serv-n>{r.serves}</span> people</output>
+            <button type="button" data-serv="1" aria-label="More people"><Icon name="plus" /></button>
+          </div>
+        </div>
+        <p class="serv-note" data-serv-note hidden>
+          <span>Amounts changed for <span class="num" data-serv-note-n></span> people. The recipe is written for <span class="num">{r.serves}</span>.</span>
+          <button type="button" data-serv-reset>Back to {r.serves}</button>
+        </p>
+        <ul class="ing-list">
+          {
+            r.ingredients.map((x: any, i: number) => (
+              <li>
+                <input type="checkbox" id={`ing-${i}`} />
+                <label for={`ing-${i}`}>
+                  {x.q != null && (
+                    <span class="amt num" data-q={x.q} data-u={x.u}>
+                      {formatAmount(x.q, x.u)} {formatUnit(x.q, x.u)}
+                    </span>
+                  )}
+                  <span class="what">{x.i}</span>
+                </label>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="ing-hint">Tick what you already have.</p>
+      </section>
+
+      <section class="method" id="method" aria-labelledby="method-title">
+        <div class="method-head">
+          <h2 id="method-title">Method</h2>
+          <p class="progress" data-progress><span class="num">0</span> of <span class="num">{r.steps.length}</span> steps done</p>
+        </div>
+        <ol class="steps">
+          {
+            r.steps.map((s: string, i: number) => (
+              <li class="step" id={`step-${i + 1}`} data-step-item={i}>
+                <span class="step-flag" data-flag hidden>
+                  <Icon name="flag" />
+                  You stopped here
+                </span>
+                <button class="step-btn" type="button" aria-pressed="false" data-step={i}>
+                  <span class="step-n num" aria-hidden="true">
+                    <span class="n">{i + 1}</span>
+                    <Icon name="check" />
+                  </span>
+                  <span class="step-copy">
+                    <span class="visually-hidden">Step {i + 1}: </span>
+                    <span class="step-text">{s}</span>
+                  </span>
+                </button>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="all-done" data-all-done hidden tabindex="-1">
+          <Icon name="check" />
+          All steps done. Khana tayyar hai.
+        </p>
+        <div class="tip">
+          <h3>{cook.short}’s tip</h3>
+          <p>{r.tip}</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="talk page" aria-labelledby="talk-title">
+      <div class="talk-head">
+        <h2 id="talk-title">Comments</h2>
+        <p>Made-up comments for the demo. Anything you write stays on this phone and is gone when you leave.</p>
+      </div>
+      <ul class="comment-list" data-comments>
+        {
+          said.map((c) => (
+            <li class="comment">
+              <p class="comment-who">
+                <strong>{c.name}</strong> <span>{c.when}</span>
+              </p>
+              <p>{c.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      {said.length === 0 && <p class="no-comments" data-no-comments>No comments on this recipe yet.</p>}
+      <form class="comment-form" novalidate data-comment-form>
+        <div class="field">
+          <label for="c-name">Your name</label>
+          <input id="c-name" type="text" autocomplete="given-name" aria-describedby="c-name-error" />
+          <p class="field-error" id="c-name-error"></p>
+        </div>
+        <div class="field">
+          <label for="c-text">Comment</label>
+          <textarea id="c-text" rows="3" aria-describedby="c-text-error"></textarea>
+          <p class="field-error" id="c-text-error"></p>
+        </div>
+        <button class="button" type="submit">
+          <span>Post comment</span>
+          <span class="tab"><Icon name="arrow" /></span>
+        </button>
+      </form>
+    </section>
+
+    <section class="more page" aria-labelledby="more-title">
+      <h2 id="more-title">Cook next</h2>
+      <ul class="more-grid">
+        {next.map((x) => <RecipeCard recipe={x} />)}
+      </ul>
+    </section>
+    <nav class="cook-bar" aria-label="Jump to">
+      <a class="cook-home" href="/#recipes" aria-label="All recipes">AJ</a>
+      <a href="#ingredients" data-cook-link="ingredients"><Icon name="list" /><span>Ingredients</span></a>
+      <a href="#method" data-cook-link="method"><Icon name="fire" /><span>Method</span></a>
+      <a class="cook-count" href="#method" data-cook-count>Step 1/{r.steps.length}</a>
+    </nav>
+  </article>
+</Base>
+
+<script>
+  import { formatAmount, formatUnit } from '../../lib/recipe.js';
+
+  const root = document.querySelector<HTMLElement>('.recipe')!;
+  const slug = root.dataset.slug!;
+  const base = Number(root.dataset.serves);
+  const note = document.querySelector<HTMLElement>('[data-tool-note]')!;
+  const say = (text: string) => {
+    note.textContent = text;
+  };
+
+  function read<T>(key: string, fallback: T): T {
+    try {
+      return JSON.parse(localStorage.getItem(key) || 'null') ?? fallback;
+    } catch {
+      return fallback;
+    }
+  }
+  function write(key: string, value: unknown) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // Servings: every amount follows the number of people.
+  let people = base;
+  const out = document.querySelector('[data-serv-n]')!;
+  const servNote = document.querySelector<HTMLElement>('[data-serv-note]')!;
+  const amounts = [...document.querySelectorAll<HTMLElement>('.amt')];
+  const less = document.querySelector<HTMLButtonElement>('[data-serv="-1"]')!;
+  const more = document.querySelector<HTMLButtonElement>('[data-serv="1"]')!;
+  function paintServings() {
+    out.textContent = String(people);
+    for (const el of amounts) {
+      const q = (Number(el.dataset.q) * people) / base;
+      const u = el.dataset.u || '';
+      el.textContent = `${formatAmount(q, u)} ${formatUnit(q, u)}`.trim();
+    }
+    servNote.hidden = people === base;
+    servNote.querySelector('[data-serv-note-n]')!.textContent = String(people);
+    less.disabled = people <= 1;
+    more.disabled = people >= 20;
+  }
+  less.addEventListener('click', () => {
+    people = Math.max(1, people - 1);
+    paintServings();
+  });
+  more.addEventListener('click', () => {
+    people = Math.min(20, people + 1);
+    paintServings();
+  });
+  document.querySelector('[data-serv-reset]')!.addEventListener('click', () => {
+    people = base;
+    paintServings();
+  });
+
+  // Steps: ticked steps are struck through and remembered on this phone.
+  const stepsKey = `aj-steps-${slug}`;
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-step]')];
+  const flags = [...document.querySelectorAll<HTMLElement>('[data-flag]')];
+  const progress = document.querySelector('[data-progress] .num')!;
+  const allDone = document.querySelector<HTMLElement>('[data-all-done]')!;
+  const cookCount = document.querySelector<HTMLAnchorElement>('[data-cook-count]')!;
+  let done = new Set<number>(read<number[]>(stepsKey, []));
+
+  function stoppedAt() {
+    if (done.size === 0 || done.size === buttons.length) return -1;
+    const last = Math.max(...done);
+    const after = buttons.findIndex((_, i) => i > last && !done.has(i));
+    return after === -1 ? buttons.findIndex((_, i) => !done.has(i)) : after;
+  }
+
+  function paintSteps() {
+    buttons.forEach((b, i) => b.setAttribute('aria-pressed', String(done.has(i))));
+    const stop = stoppedAt();
+    flags.forEach((f, i) => (f.hidden = i !== stop));
+    progress.textContent = String(done.size);
+    allDone.hidden = done.size !== buttons.length;
+    const next = stop === -1 ? buttons.findIndex((_, i) => !done.has(i)) : stop;
+    cookCount.textContent = next === -1 ? 'All done' : `Step ${next + 1}/${buttons.length}`;
+    cookCount.href = next === -1 ? '#method' : `#step-${next + 1}`;
+  }
+
+  // The cooking bar marks the part of the recipe on screen.
+  const cookLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-cook-link]')];
+  const seen = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        cookLinks.forEach((a) => a.toggleAttribute('aria-current', a.dataset.cookLink === entry.target.id));
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  ['ingredients', 'method'].forEach((id) => seen.observe(document.getElementById(id)!));
+
+  buttons.forEach((b, i) =>
+    b.addEventListener('click', () => {
+      done.has(i) ? done.delete(i) : done.add(i);
+      write(stepsKey, [...done]);
+      paintSteps();
+      if (done.size === buttons.length) allDone.focus();
+    }),
+  );
+
+  const resume = document.querySelector<HTMLElement>('[data-resume]')!;
+  const firstStop = stoppedAt();
+  if (firstStop !== -1) {
+    resume.hidden = false;
+    resume.querySelector('[data-resume-step]')!.textContent = String(firstStop + 1);
+    resume.querySelector<HTMLAnchorElement>('[data-resume-go]')!.href = `#step-${firstStop + 1}`;
+  }
+  resume.querySelector('[data-resume-go]')!.addEventListener('click', () => {
+    resume.hidden = true;
+    window.setTimeout(() => buttons[Math.max(0, stoppedAt())]?.focus({ preventScroll: true }), 400);
+  });
+  resume.querySelector('[data-reset]')!.addEventListener('click', () => {
+    done = new Set();
+    write(stepsKey, []);
+    paintSteps();
+    resume.hidden = true;
+    say('Steps cleared. Start from step 1.');
+  });
+  paintSteps();
+
+  // Save on this phone.
+  const save = document.querySelector<HTMLButtonElement>('[data-save]')!;
+  const saveLabel = save.querySelector('[data-save-label]')!;
+  function paintSave() {
+    const on = read<string[]>('aj-saved', []).includes(slug);
+    save.setAttribute('aria-pressed', String(on));
+    saveLabel.textContent = on ? 'Saved' : 'Save';
+  }
+  save.addEventListener('click', () => {
+    const list = read<string[]>('aj-saved', []);
+    const on = list.includes(slug);
+    const ok = write('aj-saved', on ? list.filter((s) => s !== slug) : [...list, slug]);
+    if (!ok) {
+      say('This browser is not letting the site save anything. Try outside private mode.');
+      return;
+    }
+    paintSave();
+    window.dispatchEvent(new Event('aj:saved'));
+    say(on ? 'Removed from your saved recipes.' : 'Saved on this phone. Find it under Saved at the top.');
+  });
+  paintSave();
+
+  // Keep the screen awake while cooking, where the browser allows it.
+  const wake = document.querySelector<HTMLButtonElement>('[data-wake]')!;
+  let lock: any = null;
+  if (!('wakeLock' in navigator)) {
+    wake.disabled = true;
+    const why = document.querySelector<HTMLElement>('[data-wake-why]')!;
+    why.textContent = 'This browser cannot keep the screen on. Chrome and Edge on Android can, on the live site.';
+    why.hidden = false;
+  } else {
+    const request = async () => {
+      try {
+        lock = await (navigator as any).wakeLock.request('screen');
+        wake.setAttribute('aria-pressed', 'true');
+        lock.addEventListener('release', () => {
+          if (document.visibilityState === 'visible') wake.setAttribute('aria-pressed', 'false');
+        });
+        say('The screen will stay on while this recipe is open.');
+      } catch {
+        say('This phone would not keep the screen on. Check battery saver.');
+      }
+    };
+    wake.addEventListener('click', async () => {
+      if (lock && !lock.released) {
+        await lock.release();
+        lock = null;
+        wake.setAttribute('aria-pressed', 'false');
+        say('The screen can turn off again.');
+      } else {
+        request();
+      }
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && wake.getAttribute('aria-pressed') === 'true') request();
+    });
+  }
+
+  // Share the page, or copy its link.
+  const share = document.querySelector<HTMLButtonElement>('[data-share]')!;
+  if ('share' in navigator || navigator.clipboard) {
+    share.hidden = false;
+    share.addEventListener('click', async () => {
+      const data = { title: root.dataset.title, url: location.href.split('#')[0] };
+      try {
+        if ('share' in navigator) {
+          await navigator.share(data);
+        } else {
+          await navigator.clipboard.writeText(data.url);
+          say('Link copied. Paste it in WhatsApp.');
+        }
+      } catch {
+        // The visitor closed the share sheet.
+      }
+    });
+  }
+
+  // Comments: checked, shown here, never sent.
+  const form = document.querySelector<HTMLFormElement>('[data-comment-form]')!;
+  const list = document.querySelector<HTMLElement>('[data-comments]')!;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = form.querySelector<HTMLInputElement>('#c-name')!;
+    const text = form.querySelector<HTMLTextAreaElement>('#c-text')!;
+    const checks: [HTMLInputElement | HTMLTextAreaElement, string][] = [
+      [name, name.value.trim() ? '' : 'Write your name, or just your first name.'],
+      [text, text.value.trim().length >= 3 ? '' : 'Write a comment first.'],
+    ];
+    let firstBad: HTMLElement | null = null;
+    for (const [field, message] of checks) {
+      document.getElementById(field.getAttribute('aria-describedby')!)!.textContent = message;
+      field.setAttribute('aria-invalid', String(Boolean(message)));
+      if (message && !firstBad) firstBad = field;
+    }
+    if (firstBad) {
+      firstBad.focus();
+      return;
+    }
+    const li = document.createElement('li');
+    li.className = 'comment mine';
+    const who = document.createElement('p');
+    who.className = 'comment-who';
+    const strong = document.createElement('strong');
+    strong.textContent = name.value.trim();
+    const when = document.createElement('span');
+    when.textContent = 'just now, only on this phone';
+    who.append(strong, ' ', when);
+    const body = document.createElement('p');
+    body.textContent = text.value.trim();
+    li.append(who, body);
+    list.append(li);
+    document.querySelector<HTMLElement>('[data-no-comments]')?.setAttribute('hidden', '');
+    form.reset();
+    say('');
+    li.setAttribute('tabindex', '-1');
+    li.focus();
+  });
+</script>
+
+<style>
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    font-weight: 800;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .back :global(.icon) {
+    width: 20px;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .back:hover :global(.icon) {
+    transform: translateX(-3px);
+  }
+
+  .r-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-7);
+    align-items: start;
+    padding-block: var(--space-4) var(--space-7);
+  }
+
+  .r-words {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .r-head h1 {
+    font-size: var(--step-4);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  .r-first {
+    display: block;
+  }
+
+  .r-head h1 .on-bar {
+    display: inline-block;
+    margin-top: 0.06em;
+    padding: 0.02em 0.14em 0.08em;
+    margin-left: -0.14em;
+  }
+
+  .r-urdu {
+    justify-self: start;
+    font-size: var(--step-2);
+    line-height: 1.6;
+  }
+
+  .r-intro {
+    max-width: 38ch;
+    font-size: var(--step-1);
+    line-height: 1.45;
+  }
+
+  .r-facts {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: start;
+    gap: 0;
+    margin: 0;
+    border-block: 2px solid var(--ink);
+  }
+
+  .r-facts div {
+    padding: var(--space-3) var(--space-5) var(--space-3) 0;
+  }
+
+  .r-facts div + div {
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--rule);
+  }
+
+  .r-facts dt {
+    font-weight: 700;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .r-facts dd {
+    margin: 0;
+    font-weight: 800;
+    font-size: var(--step-1);
+  }
+
+  .r-rating {
+    display: flex;
+    align-items: start;
+    gap: var(--space-2);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .r-rating :global(.icon) {
+    flex: none;
+    width: 20px;
+    margin-top: 1px;
+    color: var(--ink);
+  }
+
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tool {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    padding: 0 var(--space-4);
+    border: 2px solid var(--ink);
+    background: var(--panel);
+    font-weight: 800;
+    font-size: var(--step--1);
+    transition: transform 140ms var(--ease-out), background-color 160ms ease;
+  }
+
+  .tool :global(.icon) {
+    width: 22px;
+  }
+
+  .tool:active {
+    transform: scale(0.97);
+  }
+
+  .tool[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .tool .on,
+  .tool[aria-pressed='true'] .off {
+    display: none;
+  }
+
+  .tool[aria-pressed='true'] .on {
+    display: inline;
+  }
+
+  .tool:disabled {
+    border-color: var(--rule);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: not-allowed;
+  }
+
+  .tool:disabled:active {
+    transform: none;
+  }
+
+  .tool-why {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .tool-note {
+    min-height: 1.5em;
+    font-weight: 600;
+    font-size: var(--step--1);
+  }
+
+  .r-photo {
+    margin: 0;
+  }
+
+  .r-photo-frame {
+    position: relative;
+  }
+
+  .r-photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--field-deep);
+  }
+
+  .r-photo figcaption {
+    margin-top: 26px;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .r-chip {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  /* The bar straddles the photo's bottom edge by 12px; only the ink square sits on the food side. */
+  .chip-bar {
+    right: 6%;
+    bottom: -16px;
+    width: 26%;
+    height: 28px;
+    background: var(--cat);
+  }
+
+  .chip-ink {
+    left: -3%;
+    top: -4%;
+    width: 8%;
+    aspect-ratio: 1;
+    background: var(--ink);
+    transform: rotate(-12deg);
+  }
+
+  .resume {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    padding: var(--space-4) var(--space-5);
+    background: var(--panel);
+    box-shadow: var(--lift);
+  }
+
+  .resume > :global(.icon) {
+    width: 28px;
+  }
+
+  .resume p {
+    flex: 1 1 14rem;
+    font-weight: 700;
+  }
+
+  .resume-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .r-body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .ingredients {
+    position: sticky;
+    top: var(--space-4);
+    padding: var(--space-5);
+    background: var(--panel);
+  }
+
+  .ing-head,
+  .method-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .ing-head h2,
+  .method-head h2 {
+    font-size: var(--step-2);
+  }
+
+  .servings {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--ink);
+  }
+
+  .servings button {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: 0;
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .servings button:disabled {
+    background: var(--field);
+    color: var(--ink-soft);
+    cursor: not-allowed;
+  }
+
+  .servings button :global(.icon) {
+    width: 20px;
+  }
+
+  .servings output {
+    min-width: 6.5rem;
+    padding: 0 var(--space-3);
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .serv-note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-3);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .serv-note button {
+    min-height: 36px;
+    padding: 0 var(--space-3);
+    border: 2px solid var(--ink);
+    background: transparent;
+    font-weight: 800;
+    font-size: var(--step--1);
+  }
+
+  .ing-list {
+    margin: var(--space-3) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ing-list li {
+    display: flex;
+    align-items: start;
+    gap: var(--space-3);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ing-list input {
+    appearance: none;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin: 2px 0 0;
+    border: 2px solid var(--ink);
+    border-radius: 0;
+    background: var(--panel);
+    cursor: pointer;
+  }
+
+  .ing-list input:checked {
+    background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l4.5 4.5 10-10' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='square'/%3E%3C/svg%3E") center / 18px no-repeat;
+  }
+
+  .ing-list label {
+    cursor: pointer;
+  }
+
+  .amt {
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .ing-list input:checked + label {
+    color: var(--ink-soft);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+  }
+
+  .ing-hint {
+    margin-top: var(--space-3);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .method {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .progress {
+    font-weight: 700;
+    font-size: var(--step--1);
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    position: relative;
+    scroll-margin-top: var(--space-6);
+  }
+
+  .step-btn {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-4);
+    border: 0;
+    background: var(--panel);
+    text-align: left;
+    font-size: var(--step-1);
+    line-height: 1.5;
+    transition: background-color 200ms ease;
+  }
+
+  @media (hover: hover) {
+    .step-btn:hover {
+      background: var(--field);
+    }
+  }
+
+  .step-n {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    background: var(--cat);
+    font-weight: 900;
+    font-size: var(--step-1);
+  }
+
+  .step-n :global(.icon) {
+    display: none;
+    width: 28px;
+  }
+
+  /* Done: the number turns into an ink tick and an ink bar wipes through every line. */
+  .step-text {
+    background: linear-gradient(var(--ink), var(--ink)) no-repeat 0 56% / 0% 0.14em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    transition: background-size 420ms var(--ease-out), color 200ms ease;
+  }
+
+  .step-btn[aria-pressed='true'] .step-text {
+    background-size: 100% 0.14em;
+    color: var(--ink-soft);
+  }
+
+  .step-btn[aria-pressed='true'] .step-n {
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .step-btn[aria-pressed='true'] .step-n .n {
+    display: none;
+  }
+
+  .step-btn[aria-pressed='true'] .step-n :global(.icon) {
+    display: block;
+  }
+
+  .step-flag {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: var(--ink);
+    color: var(--panel);
+    font-weight: 800;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transform: translateY(-50%);
+  }
+
+  .step-flag :global(.icon) {
+    width: 16px;
+  }
+
+  .all-done {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--ink);
+    color: var(--panel);
+    font-weight: 800;
+    font-size: var(--step-1);
+  }
+
+  .all-done :global(.icon) {
+    width: 28px;
+  }
+
+  .tip {
+    margin-top: var(--space-4);
+    padding: var(--space-5);
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .tip h3 {
+    margin-bottom: var(--space-2);
+  }
+
+  .tip h3::after {
+    content: '';
+    display: block;
+    width: 3rem;
+    height: 6px;
+    margin-top: var(--space-2);
+    background: var(--panel);
+  }
+
+  .talk {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-5) var(--space-6);
+    margin-top: var(--space-9);
+    padding-top: var(--space-7);
+    border-top: 2px solid var(--ink);
+  }
+
+  .talk-head {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+
+  .talk-head p {
+    color: var(--ink-soft);
+  }
+
+  .comment-list {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .comment-list:empty {
+    display: none;
+  }
+
+  .comment-list :global(.comment) {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-5);
+    background: var(--panel);
+  }
+
+  .comment-list :global(.comment-who) span {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .no-comments {
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  .comment-form {
+    grid-column: 2;
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-1);
+    width: 100%;
+  }
+
+  .field label {
+    font-weight: 800;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    min-height: 52px;
+    padding: var(--space-3) var(--space-4);
+    border: 2px solid var(--ink);
+    border-radius: 0;
+    background: var(--panel);
+  }
+
+  .field textarea {
+    resize: vertical;
+  }
+
+  .field [aria-invalid='true'] {
+    border-color: var(--error);
+    border-width: 3px;
+  }
+
+  .field-error {
+    font-weight: 700;
+    font-size: var(--step--1);
+    color: var(--error);
+  }
+
+  .field-error:empty {
+    display: none;
+  }
+
+  .more {
+    margin-top: var(--space-9);
+    padding-top: var(--space-7);
+    border-top: 2px solid var(--ink);
+  }
+
+  .more-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cook-bar {
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    :global(body:has(.cook-bar)) {
+      padding-bottom: 64px;
+    }
+
+    .cook-bar {
+      position: fixed;
+      inset: auto 0 0;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 56px 1fr 1fr auto;
+      height: 64px;
+      background: var(--panel);
+      border-top: 2px solid var(--ink);
+    }
+
+    .cook-bar a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: 0 var(--space-3);
+      font-weight: 800;
+      font-size: var(--step--1);
+      text-decoration: none;
+    }
+
+    .cook-bar a + a {
+      border-left: 1px solid var(--rule);
+    }
+
+    .cook-bar :global(.icon) {
+      flex: none;
+      width: 20px;
+    }
+
+    /* Icon over label, so both fit on a narrow phone. */
+    .cook-bar [data-cook-link] {
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.8125rem;
+    }
+
+    .cook-bar a[aria-current] {
+      background: var(--field);
+      box-shadow: inset 0 -4px 0 var(--ink);
+    }
+
+    .cook-home {
+      background: var(--ink);
+      color: var(--panel);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .cook-count {
+      min-width: 6.5rem;
+      background: var(--ink);
+      color: var(--panel);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cook-bar a:focus-visible {
+      outline-offset: -5px;
+    }
+
+    .cook-home:focus-visible,
+    .cook-count:focus-visible {
+      outline-color: var(--panel);
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .r-body,
+    .talk {
+      grid-template-columns: 1fr;
+    }
+
+    .ingredients {
+      position: static;
+    }
+
+    .comment-form {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .r-head {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+
+    .r-words {
+      display: contents;
+    }
+
+    .r-head h1 {
+      order: 1;
+    }
+
+    .r-urdu {
+      order: 2;
+      margin-top: calc(var(--space-4) * -1);
+    }
+
+    .r-photo {
+      order: 3;
+    }
+
+    .r-facts {
+      order: 4;
+    }
+
+    .tools {
+      order: 5;
+    }
+
+    .tool-note {
+      order: 6;
+    }
+
+    .r-intro {
+      order: 7;
+    }
+
+    .r-rating {
+      order: 8;
+    }
+
+    .more-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .r-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .r-facts div,
+    .r-facts div + div {
+      padding: var(--space-3) var(--space-3) var(--space-3) 0;
+      border-left: 0;
+    }
+
+    .r-facts div:nth-child(n + 3) {
+      border-top: 1px solid var(--rule);
+    }
+
+    .ingredients {
+      padding: var(--space-4);
+    }
+
+    .step-btn {
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: var(--space-3);
+      padding: var(--space-3);
+      font-size: var(--step-0);
+    }
+
+    .step-n {
+      width: 44px;
+      height: 44px;
+    }
+
+    .more-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

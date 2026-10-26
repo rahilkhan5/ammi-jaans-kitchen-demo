@@ -1,0 +1,275 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { cook, credits, recipes } from '../data/recipes.js';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+const { title, description, image = '/photos/chicken-karahi-1200.webp' } = Astro.props;
+const ogImage = new URL(image, Astro.site).href;
+const titles = Object.fromEntries(recipes.map((r) => [r.slug, r.title]));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#e6e9ec" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <aside class="demo-strip" aria-label="Demo notice">
+      <p><strong>Demo website.</strong> {cook.short}, the recipes, ratings and comments are made up. Photos are from Unsplash, credited at the bottom.</p>
+    </aside>
+    <header class="site-header page">
+      <a class="brand" href="/">
+        <span class="mark" aria-hidden="true">AJ</span>
+        <span class="brand-name">{cook.name}</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a class="nav-wide" href="/#recipes">Recipes</a>
+        <a href="/#saved" data-saved-link>
+          <Icon name="save" />
+          <span>Saved</span>
+          <span class="saved-count num" data-saved-count hidden></span>
+        </a>
+        <a class="nav-wide" href="/#newsletter">Newsletter</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="page footer-grid">
+        <div class="footer-brand">
+          <span class="mark" aria-hidden="true">AJ</span>
+          <p><strong>{cook.name}</strong> is a demo recipe blog. {cook.short} and her kitchen in {cook.city} are made up, and so are the ratings and comments.</p>
+        </div>
+        <div>
+          <h2 class="footer-title">Photos</h2>
+          <ul class="credits">
+            {
+              Object.entries(credits).map(([slug, c]) => (
+                <li>
+                  {titles[slug]} by <a href={c.url} rel="noopener">{c.by}</a>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="footer-note">All from Unsplash, free under the Unsplash License.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Show how many recipes are saved on this phone.
+      function savedSlugs(): string[] {
+        try {
+          return JSON.parse(localStorage.getItem('aj-saved') || '[]');
+        } catch {
+          return [];
+        }
+      }
+      function paintSaved() {
+        const n = savedSlugs().length;
+        document.querySelectorAll<HTMLElement>('[data-saved-count]').forEach((el) => {
+          el.textContent = String(n);
+          el.hidden = n === 0;
+        });
+      }
+      paintSaved();
+      window.addEventListener('aj:saved', paintSaved);
+      window.addEventListener('storage', paintSaved);
+    </script>
+
+    <style>
+      .skip {
+        position: absolute;
+        left: var(--space-4);
+        top: -100px;
+        z-index: 10;
+        padding: var(--space-3) var(--space-4);
+        background: var(--ink);
+        color: var(--panel);
+        font-weight: 800;
+      }
+
+      .skip:focus {
+        top: var(--space-4);
+      }
+
+      .demo-strip {
+        margin: 0;
+        padding: var(--space-2) var(--space-4);
+        background: var(--ink);
+        color: var(--panel);
+        font-size: var(--step--1);
+        line-height: 1.4;
+        text-align: center;
+      }
+
+      .site-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding-block: var(--space-4);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-3);
+        text-decoration: none;
+      }
+
+      .mark {
+        display: grid;
+        place-items: center;
+        flex: none;
+        width: 44px;
+        height: 44px;
+        background: var(--ink);
+        color: var(--panel);
+        font-weight: 900;
+        font-size: 1.15rem;
+        letter-spacing: -0.04em;
+      }
+
+      .brand-name {
+        font-weight: 800;
+        font-size: var(--step-1);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .nav a {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        min-height: 44px;
+        padding: 0 var(--space-3);
+        font-weight: 800;
+        font-size: var(--step--1);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+
+      .nav a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 0.35em;
+      }
+
+      .nav :global(.icon) {
+        width: 20px;
+      }
+
+      .saved-count {
+        display: grid;
+        place-items: center;
+        min-width: 24px;
+        height: 24px;
+        padding: 0 6px;
+        background: var(--ink);
+        color: var(--panel);
+        font-size: 0.8125rem;
+        letter-spacing: 0;
+      }
+
+      .site-footer {
+        margin-top: var(--space-9);
+        padding-block: var(--space-8) var(--space-7);
+        background: var(--field-deep);
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+        gap: var(--space-7);
+      }
+
+      .footer-brand {
+        display: grid;
+        gap: var(--space-4);
+        align-content: start;
+        max-width: 26rem;
+      }
+
+      .footer-title {
+        margin-bottom: var(--space-3);
+        font-size: var(--step-1);
+      }
+
+      .credits {
+        columns: 2;
+        column-gap: var(--space-6);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: var(--step--1);
+        line-height: 1.8;
+      }
+
+      .credits li {
+        break-inside: avoid;
+      }
+
+      .footer-note {
+        margin-top: var(--space-4);
+        font-size: var(--step--1);
+        color: var(--ink-soft);
+      }
+
+      @media (max-width: 760px) {
+        .nav-wide {
+          display: none !important;
+        }
+
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .site-header {
+          padding-block: var(--space-3);
+        }
+
+        .mark {
+          width: 40px;
+          height: 40px;
+        }
+
+        .brand-name {
+          font-size: var(--step-0);
+        }
+
+        .credits {
+          columns: 1;
+        }
+      }
+    </style>
+  </body>
+</html>

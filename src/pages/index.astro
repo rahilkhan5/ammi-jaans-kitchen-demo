@@ -1,0 +1,838 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import RecipeCard from '../components/RecipeCard.astro';
+import { cook, CATEGORIES, MEALTIMES, recipes, photoInfo } from '../data/recipes.js';
+import { minutes, longDate, splitTitle } from '../lib/recipe.js';
+
+const sorted = [...recipes].sort((a, b) => b.date.localeCompare(a.date));
+const today = sorted[0];
+const [first, last] = splitTitle(today.title);
+const counts = Object.fromEntries(Object.keys(CATEGORIES).map((k) => [k, recipes.filter((r) => r.category === k).length]));
+const most = Math.max(...Object.values(counts));
+---
+
+<Base title={`${cook.name}: Pakistani home recipes`} description="Pakistani home recipes you can cook from on your phone: karahi, biryani, nihari, chai time snacks and sweets. A demo recipe blog.">
+  <section class="hero page" data-cat={today.category} aria-labelledby="today-title">
+    <div class="hero-words">
+      <h1 id="today-title">
+        {first && <span class="hero-first">{first}</span>} <span class="on-bar">{last}</span>
+      </h1>
+      <p class="hero-urdu urdu" lang="ur" dir="rtl">{today.urdu}</p>
+      <p class="hero-intro">{today.intro}</p>
+      <ul class="hero-facts">
+        <li><Icon name="clock" /><span><span class="num">{minutes(today.prep + today.cook)}</span> in all</span></li>
+        <li><Icon name="people" /><span>Serves <span class="num">{today.serves}</span></span></li>
+        <li><Icon name="star" /><span><span class="num">{today.rating}</span> demo rating</span></li>
+      </ul>
+      <div class="hero-actions">
+        <a class="button on-cat" href={`/recipes/${today.slug}/`}>
+          <span>Cook this</span>
+          <span class="tab"><Icon name="arrow" /></span>
+        </a>
+        <p class="hero-when">Today’s recipe, posted <span class="num">{longDate(today.date)}</span></p>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img
+        src={`/photos/${today.slug}-1200.webp`}
+        srcset={`/photos/${today.slug}-600.webp 600w, /photos/${today.slug}-1200.webp 1200w`}
+        sizes="(min-width: 900px) 52vw, 100vw"
+        width="1200"
+        height="900"
+        alt={photoInfo[today.slug].alt}
+        fetchpriority="high"
+        style={`object-position: ${photoInfo[today.slug].pos}`}
+      />
+      <span class="hero-chip chip-bar" aria-hidden="true"></span>
+      <span class="hero-chip chip-ink" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <section class="cats page" id="categories" aria-labelledby="cats-title">
+    <div class="cats-head">
+      <h2 id="cats-title">Pick a colour, find a dish</h2>
+      <p>Every kind of dish keeps one colour, everywhere on the site. The longer the bar, the more recipes.</p>
+    </div>
+    <div class="bars" role="group" aria-label="Show one kind of dish" data-bars>
+      {
+        Object.entries(CATEGORIES).map(([key, c]) => (
+          <button class="bar" type="button" data-cat={key} data-filter-cat={key} aria-pressed="false" style={`--len: ${Math.round((counts[key] / most) * 100)}%; --f: ${(counts[key] / most).toFixed(3)}`}>
+            <span class="bar-fill" aria-hidden="true" />
+            <span class="bar-text">
+              <span class="bar-label">{c.label}</span>
+              <span class="bar-count num">{counts[key]}</span>
+            </span>
+            <span class="bar-end">
+              <span class="bar-urdu urdu" lang="ur" dir="rtl">{c.urdu}</span>
+              <span class="bar-tab" aria-hidden="true"><Icon name="arrow-down" /></span>
+            </span>
+          </button>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="index page" id="recipes" aria-labelledby="recipes-title">
+    <div class="index-head" id="saved">
+      <h2 id="recipes-title">All recipes</h2>
+      <label class="search">
+        <span class="visually-hidden">Search a dish or an ingredient</span>
+        <Icon name="search" />
+        <input type="search" placeholder="Search a dish or an ingredient" autocomplete="off" data-search />
+      </label>
+    </div>
+
+    <div class="filters">
+      <div class="chips" role="group" aria-label="Time of day">
+        <button class="chip" type="button" data-filter-meal="" aria-pressed="true">Any time</button>
+        {
+          Object.entries(MEALTIMES).map(([key, label]) => (
+            <button class="chip" type="button" data-filter-meal={key} aria-pressed="false">
+              {label}
+            </button>
+          ))
+        }
+      </div>
+      <button class="chip chip-saved" type="button" data-filter-saved aria-pressed="false">
+        <Icon name="save" />
+        Saved on this phone
+      </button>
+    </div>
+
+    <p class="result-line" aria-live="polite" data-result>Showing all <span class="num">{recipes.length}</span> recipes, newest first.</p>
+
+    <ul class="grid" data-grid>
+      {sorted.map((r, i) => <RecipeCard recipe={r} eager={i < 3} />)}
+    </ul>
+
+    <div class="empty" data-empty hidden>
+      <p class="empty-title" data-empty-title>No recipe matches that.</p>
+      <p data-empty-hint>Try another word, or clear the filters.</p>
+      <button class="button plain" type="button" data-clear>
+        <span>Clear filters</span>
+        <span class="tab"><Icon name="close" /></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="letter page" id="newsletter" aria-labelledby="letter-title">
+    <div class="letter-words">
+      <h2 id="letter-title">One recipe every <span class="on-panel">Sunday.</span></h2>
+      <p>{cook.short} has cooked for a family of eight in {cook.city} for 35 years. Every Sunday she sends one recipe she has tested that week, with the shopping list. No other emails.</p>
+    </div>
+    <form class="letter-form" novalidate data-letter>
+      <label for="letter-email">Your email</label>
+      <div class="letter-row">
+        <input id="letter-email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" aria-describedby="letter-error" />
+        <button class="button plain" type="submit">
+          <span>Sign up</span>
+          <span class="tab"><Icon name="arrow" /></span>
+        </button>
+      </div>
+      <p class="field-error" id="letter-error" data-letter-error></p>
+      <p class="letter-done" data-letter-done hidden tabindex="-1">
+        <Icon name="check" />
+        <span>Signed up, in demo mode. Nothing was sent and your email was not saved anywhere.</span>
+      </p>
+    </form>
+  </section>
+</Base>
+
+<script>
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-recipe]')];
+  const bars = [...document.querySelectorAll<HTMLButtonElement>('[data-filter-cat]')];
+  const meals = [...document.querySelectorAll<HTMLButtonElement>('[data-filter-meal]')];
+  const savedChip = document.querySelector<HTMLButtonElement>('[data-filter-saved]')!;
+  const search = document.querySelector<HTMLInputElement>('[data-search]')!;
+  const result = document.querySelector<HTMLElement>('[data-result]')!;
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  const barsBox = document.querySelector<HTMLElement>('[data-bars]')!;
+  const recipesHead = document.querySelector<HTMLElement>('#recipes')!;
+
+  const catLabel = Object.fromEntries(bars.map((b) => [b.dataset.filterCat, b.querySelector('.bar-label')!.textContent]));
+  const mealLabel = Object.fromEntries(meals.map((b) => [b.dataset.filterMeal, b.textContent!.trim()]));
+  const state = { cat: '', meal: '', saved: false, q: '' };
+
+  function savedSlugs(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem('aj-saved') || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function apply() {
+    const saved = new Set(savedSlugs());
+    const terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    for (const card of cards) {
+      const ok =
+        (!state.cat || card.dataset.cat === state.cat) &&
+        (!state.meal || card.dataset.mealtime === state.meal) &&
+        (!state.saved || saved.has(card.dataset.recipe!)) &&
+        terms.every((t) => card.dataset.words!.includes(t));
+      card.hidden = !ok;
+      card.querySelector<HTMLElement>('[data-card-saved]')!.hidden = !saved.has(card.dataset.recipe!);
+      if (ok) shown += 1;
+    }
+
+    bars.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filterCat === state.cat)));
+    barsBox.classList.toggle('has-choice', Boolean(state.cat));
+    meals.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filterMeal === state.meal)));
+    savedChip.setAttribute('aria-pressed', String(state.saved));
+
+    const parts = [
+      state.saved && 'saved on this phone',
+      state.cat && catLabel[state.cat],
+      state.meal && mealLabel[state.meal],
+      terms.length && `matching “${state.q.trim()}”`,
+    ].filter(Boolean);
+    result.textContent = parts.length
+      ? `Showing ${shown} of ${cards.length} recipes: ${parts.join(', ')}.`
+      : `Showing all ${cards.length} recipes, newest first.`;
+
+    empty.hidden = shown > 0;
+    if (shown === 0) {
+      const title = empty.querySelector('[data-empty-title]')!;
+      const hint = empty.querySelector('[data-empty-hint]')!;
+      if (state.saved && saved.size === 0) {
+        title.textContent = 'Nothing saved yet.';
+        hint.textContent = 'Open a recipe and tap Save. It stays on this phone, no account needed.';
+      } else {
+        title.textContent = 'No recipe matches that.';
+        hint.textContent = 'Try another word, or clear the filters.';
+      }
+    }
+  }
+
+  function showResults() {
+    // On a phone the grid can sit below the fold; bring it up after the bar moves.
+    if (recipesHead.getBoundingClientRect().top > window.innerHeight * 0.75) {
+      window.setTimeout(() => recipesHead.scrollIntoView({ behavior: 'smooth', block: 'start' }), 380);
+    }
+  }
+
+  bars.forEach((b) =>
+    b.addEventListener('click', () => {
+      state.cat = state.cat === b.dataset.filterCat ? '' : b.dataset.filterCat!;
+      apply();
+      if (state.cat) showResults();
+    }),
+  );
+  meals.forEach((b) =>
+    b.addEventListener('click', () => {
+      state.meal = b.dataset.filterMeal!;
+      apply();
+    }),
+  );
+  savedChip.addEventListener('click', () => {
+    state.saved = !state.saved;
+    apply();
+  });
+  search.addEventListener('input', () => {
+    state.q = search.value;
+    apply();
+  });
+  document.querySelector('[data-clear]')!.addEventListener('click', () => {
+    Object.assign(state, { cat: '', meal: '', saved: false, q: '' });
+    search.value = '';
+    apply();
+    search.focus();
+  });
+
+  function fromHash() {
+    if (location.hash === '#saved') {
+      state.saved = true;
+      apply();
+    }
+  }
+  window.addEventListener('hashchange', fromHash);
+  window.addEventListener('aj:saved', apply);
+  apply();
+  fromHash();
+
+  // Phone bars start from their label's width, so a short bar never cuts its own words.
+  function measureBars() {
+    for (const bar of bars) {
+      const text = bar.querySelector<HTMLElement>('.bar-text')!;
+      bar.style.setProperty('--lw', `${text.offsetLeft + text.offsetWidth + 12}px`);
+      bar.classList.add('measured');
+    }
+  }
+  document.fonts.ready.then(measureBars);
+  window.addEventListener('resize', measureBars);
+
+  // Newsletter: checks the address, then says plainly that nothing was sent.
+  const letter = document.querySelector<HTMLFormElement>('[data-letter]')!;
+  const email = letter.querySelector<HTMLInputElement>('input')!;
+  const error = letter.querySelector<HTMLElement>('[data-letter-error]')!;
+  const done = letter.querySelector<HTMLElement>('[data-letter-done]')!;
+  letter.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const value = email.value.trim();
+    const message = !value ? 'Write your email address.' : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? 'That email looks incomplete. It should look like name@example.com.' : '';
+    error.textContent = message;
+    email.setAttribute('aria-invalid', String(Boolean(message)));
+    if (message) {
+      email.focus();
+      return;
+    }
+    letter.querySelector<HTMLElement>('.letter-row')!.hidden = true;
+    letter.querySelector('label')!.hidden = true;
+    done.hidden = false;
+    done.focus();
+  });
+</script>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: var(--space-7);
+    padding-block: var(--space-6) var(--space-8);
+  }
+
+  .hero-words {
+    display: grid;
+    gap: var(--space-4);
+    align-content: center;
+  }
+
+  .hero h1 {
+    font-size: var(--step-4);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-first {
+    display: block;
+  }
+
+  .hero h1 .on-bar {
+    display: inline-block;
+    margin-top: 0.06em;
+    padding: 0.02em 0.14em 0.08em;
+    margin-left: -0.14em;
+  }
+
+  .hero-urdu {
+    justify-self: start;
+    font-size: var(--step-2);
+    line-height: 1.6;
+  }
+
+  .hero-intro {
+    max-width: 34ch;
+    font-size: var(--step-1);
+    line-height: 1.45;
+  }
+
+  .hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .hero-facts li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .hero-facts :global(.icon) {
+    width: 22px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+    margin-top: var(--space-2);
+  }
+
+  .hero-when {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+
+  .hero-photo {
+    position: relative;
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--field-deep);
+  }
+
+  /* Bars sit on the photo's corners and run off onto the grey, never across the food. */
+  .hero-chip {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .chip-bar {
+    left: -10%;
+    bottom: -16px;
+    width: 34%;
+    height: 28px;
+    background: var(--cat);
+    animation: bar-in 700ms var(--ease-out) 120ms both;
+  }
+
+  .chip-ink {
+    top: -28px;
+    right: 8%;
+    width: 9%;
+    aspect-ratio: 1;
+    background: var(--ink);
+    transform: rotate(14deg);
+  }
+
+  @keyframes bar-in {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .cats {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: var(--space-6) var(--space-7);
+    align-items: start;
+    padding-block: var(--space-7) var(--space-8);
+    border-top: 2px solid var(--ink);
+  }
+
+  .cats-head {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .cats-head p {
+    max-width: 34ch;
+    color: var(--ink-soft);
+  }
+
+  .bars {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  /* Signature: each bar is drawn to its number of recipes. A chosen bar runs
+     the full width and the rest pull back to their labels. */
+  .bar {
+    --min: 3.5rem;
+    --fill: max(var(--min), var(--len));
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: var(--bar-h);
+    padding: 0 0 0 var(--space-4);
+    border: 0;
+    background: transparent;
+    text-align: left;
+    isolation: isolate;
+  }
+
+  .bar-fill {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--cat);
+    clip-path: inset(0 calc(100% - var(--fill)) 0 0);
+    transition: clip-path 460ms var(--ease-out);
+  }
+
+  .bar::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 2px;
+    background: var(--field-deep);
+    z-index: -2;
+  }
+
+  .bar-text {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-weight: 850;
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+  }
+
+  .bar-count {
+    font-weight: 600;
+    font-size: var(--step--1);
+  }
+
+  .bar-urdu {
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .bar:hover .bar-fill {
+    clip-path: inset(0 calc(100% - var(--fill) - 1.5rem) 0 0);
+  }
+
+  .bar[aria-pressed='true'] .bar-fill {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .bar[aria-pressed='true'] .bar-urdu {
+    color: var(--ink);
+  }
+
+  /* The others keep their length and drop to a thin strip, at full colour. */
+  .has-choice .bar[aria-pressed='false'] .bar-fill {
+    clip-path: inset(74% calc(100% - var(--fill)) 0 0);
+  }
+
+  .bar-end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    align-self: stretch;
+  }
+
+  .bar-urdu {
+    padding-right: var(--space-4);
+  }
+
+  .bar-tab {
+    display: none;
+    place-items: center;
+    width: var(--bar-h);
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .bar-tab :global(.icon) {
+    width: 24px;
+  }
+
+  .bar[aria-pressed='true'] .bar-urdu {
+    padding-right: 0;
+  }
+
+  .bar[aria-pressed='true'] .bar-tab {
+    display: grid;
+  }
+
+  .bar:active {
+    transform: scale(0.99);
+  }
+
+  .index {
+    padding-top: var(--space-7);
+    border-top: 2px solid var(--ink);
+  }
+
+  .index-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    scroll-margin-top: var(--space-6);
+  }
+
+  .search {
+    position: relative;
+    flex: 0 1 26rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .search :global(.icon) {
+    position: absolute;
+    left: var(--space-4);
+    width: 22px;
+    pointer-events: none;
+  }
+
+  .search input {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 var(--space-4) 0 3.25rem;
+    border: 2px solid var(--ink);
+    border-radius: 0;
+    background: var(--panel);
+    appearance: none;
+  }
+
+  .search input::placeholder {
+    color: var(--ink-soft);
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    border: 2px solid var(--ink);
+    background: transparent;
+    font-weight: 700;
+    font-size: var(--step--1);
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+
+  .chip:hover {
+    background: var(--panel);
+  }
+
+  .chip[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .chip :global(.icon) {
+    width: 18px;
+  }
+
+  .result-line {
+    margin-block: var(--space-5) var(--space-4);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .empty {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+    padding: var(--space-7) var(--space-6);
+    background: var(--panel);
+  }
+
+  .empty-title {
+    font-weight: 850;
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
+  }
+
+  .letter {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-6) var(--space-7);
+    align-items: end;
+    margin-top: var(--space-9);
+    padding: var(--space-8) var(--space-7);
+    background: var(--ink);
+    color: var(--panel);
+  }
+
+  .letter-words {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .letter-words p {
+    max-width: 40ch;
+    color: var(--panel-soft);
+  }
+
+  .on-panel {
+    background: var(--panel);
+    color: var(--ink);
+    padding: 0 0.12em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .letter-form {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .letter-form label {
+    font-weight: 800;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .letter-row {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .letter-row input {
+    flex: 1;
+    min-width: 0;
+    min-height: 52px;
+    padding: 0 var(--space-4);
+    border: 2px solid var(--panel);
+    border-radius: 0;
+    background: var(--panel);
+    color: var(--ink);
+  }
+
+  .letter-row input:focus-visible,
+  .letter .button:focus-visible {
+    outline-color: var(--panel);
+  }
+
+  .letter-row input::placeholder {
+    color: var(--ink-soft);
+  }
+
+  .letter-row input[aria-invalid='true'] {
+    border-color: var(--error-on-ink);
+    border-width: 3px;
+  }
+
+  .field-error {
+    min-height: 1.5em;
+    font-weight: 700;
+    font-size: var(--step--1);
+    color: var(--error-on-ink);
+  }
+
+  .letter-done {
+    display: flex;
+    align-items: start;
+    gap: var(--space-3);
+    font-weight: 700;
+  }
+
+  .letter-done :global(.icon) {
+    flex: none;
+    width: 26px;
+    padding: 3px;
+    background: var(--panel);
+    color: var(--ink);
+  }
+
+  @media (max-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cats {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .chip-bar {
+      left: auto;
+      right: 6%;
+      width: 30%;
+    }
+
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+      padding-block: var(--space-3) var(--space-7);
+    }
+
+    .hero-words {
+      display: contents;
+    }
+
+    .hero h1 {
+      order: 1;
+    }
+
+    .hero-urdu {
+      order: 2;
+      margin-top: calc(var(--space-4) * -1);
+    }
+
+    .hero-photo {
+      order: 3;
+    }
+
+    .hero-actions {
+      order: 4;
+      margin-top: 0;
+    }
+
+    .hero-facts {
+      order: 5;
+    }
+
+    .hero-intro {
+      order: 6;
+    }
+
+    .letter {
+      grid-template-columns: 1fr;
+      padding: var(--space-7) var(--space-5);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bar {
+      padding: 0 0 0 var(--space-3);
+    }
+
+    .bar.measured {
+      --fill: calc(var(--lw) + var(--f) * (100% - var(--lw)));
+    }
+
+    .search {
+      flex-basis: 100%;
+    }
+
+    .letter-row {
+      flex-direction: column;
+    }
+
+    .letter-row .button {
+      justify-content: space-between;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip-bar {
+      animation: none;
+    }
+  }
+</style>

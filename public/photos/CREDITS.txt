@@ -1,0 +1,15 @@
+Food photos, all from Unsplash under the Unsplash License (free to use).
+Saved as WebP at 600 and 1200 px wide. Used only as demo content; the dish names are ours.
+
+chicken-biryani: Mario Raj, https://unsplash.com/photos/ysmeQt1dzcw (source https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a)
+chicken-karahi: Dr Muhammad Amer, https://unsplash.com/photos/hEMOwugpjJk (source https://images.unsplash.com/photo-1603496987351-f84a3ba5ec85)
+beef-nihari: Rimsha Noor, https://unsplash.com/photos/YAfJ0LC-uNE (source https://images.unsplash.com/photo-1708782344071-c5382e27ef3e)
+aloo-gosht: Rimsha Noor, https://unsplash.com/photos/RVWHhDVjBNI (source https://images.unsplash.com/photo-1708782344137-21c48d98dfcc)
+haleem: Rimsha Noor, https://unsplash.com/photos/cqP2NBeXf0g (source https://images.unsplash.com/photo-1708782340380-536df8cf6784)
+aloo-chicken-salan: Dr Muhammad Amer, https://unsplash.com/photos/uZafmu1gGJI (source https://images.unsplash.com/photo-1652545296892-3787063f8b4d)
+doodh-patti-chai: Dilpreet Singh, https://unsplash.com/photos/TlFf1kJm_zU (source https://images.unsplash.com/photo-1720875733075-fd8494df7908)
+chicken-pakoray: Abhijit Biswas, https://unsplash.com/photos/inz8vyeEumY (source https://images.unsplash.com/photo-1765360024331-25b63e85272e)
+samosa: Abdul Raheem Kannath, https://unsplash.com/photos/WJOHwwS1jYc (source https://images.unsplash.com/photo-1767469576715-a4eb8bcfa204)
+seekh-kebab: Victoria Shes, https://unsplash.com/photos/UC0HZdUitWY (source https://images.unsplash.com/photo-1555939594-58d7cb561ad1)
+cream-gulab-jamun: Umair Ali Asad, https://unsplash.com/photos/2oJ4eGRPqrE (source https://images.unsplash.com/photo-1666190092159-3171cf0fbb12)
+chicken-broast: Umair Ali Asad, https://unsplash.com/photos/aLeMXWQJApY (source https://images.unsplash.com/photo-1666190091191-0cd0c5c8c5b5)

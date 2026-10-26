@@ -1,0 +1,474 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-25T16:08:19.345Z",
+  "title": "Design System: Ammi Jaan's Kitchen",
+  "extensions": {
+    "colorMeta": {
+      "field": {
+        "role": "neutral",
+        "displayName": "Cool Grey Field",
+        "canonical": "#e6e9ec",
+        "tonalRamp": [
+          "oklch(15% 0.005 247.9)",
+          "oklch(25% 0.005 247.9)",
+          "oklch(35% 0.005 247.9)",
+          "oklch(48% 0.005 247.9)",
+          "oklch(60% 0.005 247.9)",
+          "oklch(72% 0.005 247.9)",
+          "oklch(84% 0.005 247.9)",
+          "oklch(95% 0.002 247.9)"
+        ]
+      },
+      "field-deep": {
+        "role": "neutral",
+        "displayName": "Deep Grey",
+        "canonical": "#d6dade",
+        "tonalRamp": [
+          "oklch(15% 0.007 247.9)",
+          "oklch(25% 0.007 247.9)",
+          "oklch(35% 0.007 247.9)",
+          "oklch(48% 0.007 247.9)",
+          "oklch(60% 0.007 247.9)",
+          "oklch(72% 0.007 247.9)",
+          "oklch(84% 0.007 247.9)",
+          "oklch(95% 0.003 247.9)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.000 0)",
+          "oklch(25% 0.000 0)",
+          "oklch(35% 0.000 0)",
+          "oklch(48% 0.000 0)",
+          "oklch(60% 0.000 0)",
+          "oklch(72% 0.000 0)",
+          "oklch(84% 0.000 0)",
+          "oklch(95% 0.000 0)"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Kitchen Ink",
+        "canonical": "#0a0a0a",
+        "tonalRamp": [
+          "oklch(15% 0.000 0)",
+          "oklch(25% 0.000 0)",
+          "oklch(35% 0.000 0)",
+          "oklch(48% 0.000 0)",
+          "oklch(60% 0.000 0)",
+          "oklch(72% 0.000 0)",
+          "oklch(84% 0.000 0)",
+          "oklch(95% 0.000 0)"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#3d4248",
+        "tonalRamp": [
+          "oklch(15% 0.012 253)",
+          "oklch(25% 0.012 253)",
+          "oklch(35% 0.012 253)",
+          "oklch(48% 0.012 253)",
+          "oklch(60% 0.012 253)",
+          "oklch(72% 0.012 253)",
+          "oklch(84% 0.012 253)",
+          "oklch(95% 0.005 253)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline Grey",
+        "canonical": "#b9bfc6",
+        "tonalRamp": [
+          "oklch(15% 0.012 252.1)",
+          "oklch(25% 0.012 252.1)",
+          "oklch(35% 0.012 252.1)",
+          "oklch(48% 0.012 252.1)",
+          "oklch(60% 0.012 252.1)",
+          "oklch(72% 0.012 252.1)",
+          "oklch(84% 0.012 252.1)",
+          "oklch(95% 0.005 252.1)"
+        ]
+      },
+      "cat-rice": {
+        "role": "secondary",
+        "displayName": "Rice Yellow",
+        "canonical": "#ffd400",
+        "tonalRamp": [
+          "oklch(15% 0.181 94)",
+          "oklch(25% 0.181 94)",
+          "oklch(35% 0.181 94)",
+          "oklch(48% 0.181 94)",
+          "oklch(60% 0.181 94)",
+          "oklch(72% 0.181 94)",
+          "oklch(84% 0.181 94)",
+          "oklch(95% 0.081 94)"
+        ]
+      },
+      "cat-salan": {
+        "role": "secondary",
+        "displayName": "Karahi Orange",
+        "canonical": "#ff6b1a",
+        "tonalRamp": [
+          "oklch(15% 0.198 43.4)",
+          "oklch(25% 0.198 43.4)",
+          "oklch(35% 0.198 43.4)",
+          "oklch(48% 0.198 43.4)",
+          "oklch(60% 0.198 43.4)",
+          "oklch(72% 0.198 43.4)",
+          "oklch(84% 0.198 43.4)",
+          "oklch(95% 0.089 43.4)"
+        ]
+      },
+      "cat-bbq": {
+        "role": "secondary",
+        "displayName": "Tikka Cyan",
+        "canonical": "#00b7ff",
+        "tonalRamp": [
+          "oklch(15% 0.158 235.9)",
+          "oklch(25% 0.158 235.9)",
+          "oklch(35% 0.158 235.9)",
+          "oklch(48% 0.158 235.9)",
+          "oklch(60% 0.158 235.9)",
+          "oklch(72% 0.158 235.9)",
+          "oklch(84% 0.158 235.9)",
+          "oklch(95% 0.071 235.9)"
+        ]
+      },
+      "cat-snacks": {
+        "role": "secondary",
+        "displayName": "Chai Green",
+        "canonical": "#32d74b",
+        "tonalRamp": [
+          "oklch(15% 0.200 145)",
+          "oklch(25% 0.200 145)",
+          "oklch(35% 0.200 145)",
+          "oklch(48% 0.200 145)",
+          "oklch(60% 0.200 145)",
+          "oklch(72% 0.200 145)",
+          "oklch(84% 0.200 145)",
+          "oklch(95% 0.090 145)"
+        ]
+      },
+      "cat-sweets": {
+        "role": "secondary",
+        "displayName": "Mithai Magenta",
+        "canonical": "#ff2da1",
+        "tonalRamp": [
+          "oklch(15% 0.200 353.5)",
+          "oklch(25% 0.200 353.5)",
+          "oklch(35% 0.200 353.5)",
+          "oklch(48% 0.200 353.5)",
+          "oklch(60% 0.200 353.5)",
+          "oklch(72% 0.200 353.5)",
+          "oklch(84% 0.200 353.5)",
+          "oklch(95% 0.090 353.5)"
+        ]
+      },
+      "error": {
+        "role": "tertiary",
+        "displayName": "Fix-it Red",
+        "canonical": "#b3001b",
+        "tonalRamp": [
+          "oklch(15% 0.196 25)",
+          "oklch(25% 0.196 25)",
+          "oklch(35% 0.196 25)",
+          "oklch(48% 0.196 25)",
+          "oklch(60% 0.196 25)",
+          "oklch(72% 0.196 25)",
+          "oklch(84% 0.196 25)",
+          "oklch(95% 0.088 25)"
+        ]
+      },
+      "error-on-ink": {
+        "role": "tertiary",
+        "displayName": "Fix-it Pink",
+        "canonical": "#ff9aa8",
+        "tonalRamp": [
+          "oklch(15% 0.121 11.3)",
+          "oklch(25% 0.121 11.3)",
+          "oklch(35% 0.121 11.3)",
+          "oklch(48% 0.121 11.3)",
+          "oklch(60% 0.121 11.3)",
+          "oklch(72% 0.121 11.3)",
+          "oklch(84% 0.121 11.3)",
+          "oklch(95% 0.054 11.3)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Dish title on the home hero and recipe page; the last word sits on its category bar."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section heads."
+      },
+      "headline-panel": {
+        "displayName": "Headline Panel",
+        "purpose": "Heads inside panels (Ingredients, Method) and the empty state."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles, brand name, category bar labels, fact values."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading text at 18px for the kitchen."
+      },
+      "body-step": {
+        "displayName": "Body Step",
+        "purpose": "Method steps on desktop; body size under 640px."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Facts, captions, credits, hints."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase nav, field labels, fact names; buttons track 0.08em, card seam bars 0.04em."
+      },
+      "label-small": {
+        "displayName": "Label Small",
+        "purpose": "The step flag, saved count, cooking bar labels."
+      },
+      "urdu-name": {
+        "displayName": "Urdu Name",
+        "purpose": "Nastaliq dish and category names beside the English."
+      }
+    },
+    "shadows": [
+      {
+        "name": "lift",
+        "value": "0 1px 2px rgb(10 10 10 / 0.08), 0 18px 32px -22px rgb(10 10 10 / 0.45)",
+        "purpose": "Card hover (with a 3px rise) and the welcome back banner only."
+      },
+      {
+        "name": "current-underline",
+        "value": "inset 0 -4px 0 #0a0a0a",
+        "purpose": "Current link in the phone cooking bar; a mark, not elevation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "The one easing for wipes, presses and lifts."
+      },
+      {
+        "name": "press",
+        "value": "140ms",
+        "purpose": "Button and tool press scales to 0.97."
+      },
+      {
+        "name": "tab-nudge",
+        "value": "200ms",
+        "purpose": "Arrow tab nudges 3px on hover."
+      },
+      {
+        "name": "card-lift",
+        "value": "220ms",
+        "purpose": "Card hover rise and lift."
+      },
+      {
+        "name": "strike-wipe",
+        "value": "420ms",
+        "purpose": "Ink strike wipes across a done step."
+      },
+      {
+        "name": "bar-wipe",
+        "value": "460ms",
+        "purpose": "Category bar clip-path slide when chosen."
+      },
+      {
+        "name": "hero-bar-in",
+        "value": "700ms after 120ms",
+        "purpose": "Hero photo bar clips in from the left on load."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "All transitions and animations collapse under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "xs",
+        "value": "480px"
+      },
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "cook-bar",
+        "value": "700px"
+      },
+      {
+        "name": "nav",
+        "value": "760px"
+      },
+      {
+        "name": "md",
+        "value": "900px"
+      },
+      {
+        "name": "recipe-body",
+        "value": "1000px"
+      },
+      {
+        "name": "lg",
+        "value": "1100px"
+      },
+      {
+        "name": "page-max",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Every general action (resume, post comment): an ink block with an ink arrow tab.",
+      "html": "<button class=\"ds-btn-ink\"><span>Go to step 3</span><span class=\"ds-tab\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M4 12h15\"/><path d=\"M13 6l6 6-6 6\"/></svg></span></button>",
+      "css": ".ds-btn-ink { display: inline-flex; align-items: stretch; min-height: 52px; padding: 0; border: 2px solid var(--ink, #0a0a0a); border-radius: 0; background: var(--ink, #0a0a0a); color: var(--panel, #fff); font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; font-weight: 800; font-size: 0.9375rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-ink > span { display: flex; align-items: center; padding: 0 1.5rem; } .ds-btn-ink .ds-tab { display: grid; place-items: center; width: 52px; padding: 0; background: var(--ink, #0a0a0a); color: var(--panel, #fff); } .ds-btn-ink .ds-tab svg { transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-ink:hover .ds-tab svg { transform: translateX(3px); } .ds-btn-ink:active { transform: scale(0.97); } .ds-btn-ink:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Category Button",
+      "kind": "button",
+      "refersTo": "button-category",
+      "description": "Only the home hero \"Cook this\": the dish's own category colour, ink label, ink tab.",
+      "html": "<a class=\"ds-btn-cat\" href=\"#\"><span>Cook this</span><span class=\"ds-tab\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M4 12h15\"/><path d=\"M13 6l6 6-6 6\"/></svg></span></a>",
+      "css": ".ds-btn-cat { display: inline-flex; align-items: stretch; min-height: 52px; padding: 0; border: 2px solid var(--ink, #0a0a0a); border-radius: 0; background: var(--cat-salan, #ff6b1a); color: var(--ink, #0a0a0a); font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; font-weight: 800; font-size: 0.9375rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-cat > span { display: flex; align-items: center; padding: 0 1.5rem; } .ds-btn-cat .ds-tab { display: grid; place-items: center; width: 52px; padding: 0; background: var(--ink, #0a0a0a); color: var(--panel, #fff); } .ds-btn-cat .ds-tab svg { transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-cat:hover .ds-tab svg { transform: translateX(3px); } .ds-btn-cat:active { transform: scale(0.97); } .ds-btn-cat:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Plain Button",
+      "kind": "button",
+      "refersTo": "button-plain",
+      "description": "Secondary actions (clear filters, start over, newsletter sign up on ink): white block, tab split by a 2px ink rule.",
+      "html": "<button class=\"ds-btn-plain\"><span>Clear filters</span><span class=\"ds-tab\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M6 6l12 12\"/><path d=\"M18 6 6 18\"/></svg></span></button>",
+      "css": ".ds-btn-plain { display: inline-flex; align-items: stretch; min-height: 52px; padding: 0; border: 2px solid var(--ink, #0a0a0a); border-radius: 0; background: var(--panel, #fff); color: var(--ink, #0a0a0a); font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; font-weight: 800; font-size: 0.9375rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-plain > span { display: flex; align-items: center; padding: 0 1.5rem; } .ds-btn-plain .ds-tab { display: grid; place-items: center; width: 52px; padding: 0; border-left: 2px solid var(--ink, #0a0a0a); background: var(--panel, #fff); color: var(--ink, #0a0a0a); } .ds-btn-plain .ds-tab svg { transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-btn-plain:hover .ds-tab svg { transform: translateX(3px); } .ds-btn-plain:active { transform: scale(0.97); } .ds-btn-plain:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Filter Chips",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Time of day and saved filters: outlined on grey, white on hover, ink when chosen.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip\" aria-pressed=\"true\">Any time</button><button class=\"ds-chip\" aria-pressed=\"false\">Chai time</button><button class=\"ds-chip\" aria-pressed=\"false\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M6 3.5h12v17l-6-4.5-6 4.5Z\"/></svg>Saved on this phone</button></div>",
+      "css": ".ds-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem; background: var(--field, #e6e9ec); } .ds-chip { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1rem; border: 2px solid var(--ink, #0a0a0a); border-radius: 0; background: transparent; color: var(--ink, #0a0a0a); font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; font-weight: 700; font-size: 0.9375rem; cursor: pointer; transition: background-color 160ms ease, color 160ms ease; } .ds-chip:hover { background: var(--panel, #fff); } .ds-chip[aria-pressed='true'] { background: var(--ink, #0a0a0a); color: var(--panel, #fff); } .ds-chip:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "White, 2px ink border, square, 52px, inset icon; 3px fix-it red border when invalid.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Z\"/><path d=\"M15.5 15.5 20.5 20.5\"/></svg><input type=\"search\" placeholder=\"Search a dish or an ingredient\"></label>",
+      "css": ".ds-search { position: relative; display: flex; align-items: center; max-width: 26rem; } .ds-search svg { position: absolute; left: 1rem; pointer-events: none; color: var(--ink, #0a0a0a); } .ds-search input { width: 100%; min-height: 52px; padding: 0 1rem 0 3.25rem; border: 2px solid var(--ink, #0a0a0a); border-radius: 0; background: var(--panel, #fff); color: var(--ink, #0a0a0a); font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; font-size: 1.125rem; appearance: none; } .ds-search input::placeholder { color: var(--ink-soft, #3d4248); } .ds-search input:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; } .ds-search input[aria-invalid='true'] { border: 3px solid var(--error, #b3001b); }"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Ink AJ monogram and brand name, uppercase 800 links with a 3px underline on hover.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-mark\">AJ</span><span>Ammi Jaan's Kitchen</span></a><nav><a href=\"#\">Recipes</a><a href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M6 3.5h12v17l-6-4.5-6 4.5Z\"/></svg>Saved</a><a href=\"#\">Newsletter</a></nav></header>",
+      "css": ".ds-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem; background: var(--field, #e6e9ec); color: var(--ink, #0a0a0a); font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; } .ds-brand { display: inline-flex; align-items: center; gap: 0.75rem; color: inherit; text-decoration: none; font-weight: 800; font-size: 1.3125rem; letter-spacing: -0.02em; } .ds-mark { display: grid; place-items: center; width: 44px; height: 44px; background: var(--ink, #0a0a0a); color: var(--panel, #fff); font-weight: 900; font-size: 1.15rem; letter-spacing: -0.04em; } .ds-nav nav { display: flex; gap: 0.5rem; } .ds-nav nav a { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 0.75rem; color: inherit; font-weight: 800; font-size: 0.9375rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; } .ds-nav nav a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.35em; } .ds-nav a:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; }"
+    },
+    {
+      "name": "Recipe Card",
+      "kind": "card",
+      "refersTo": "recipe-card",
+      "description": "White panel, 4:3 photo, label wide category bar on the seam (half photo, half panel), lift on hover.",
+      "html": "<a class=\"ds-card\" href=\"#\"><div class=\"ds-card-photo\"></div><span class=\"ds-card-bar\">Salan and karahi</span><div class=\"ds-card-body\"><h3>Chicken Karahi</h3><p class=\"ds-card-urdu\" lang=\"ur\" dir=\"rtl\">چکن کڑاہی</p><p class=\"ds-card-facts\"><span>45 min</span><span>Serves 4</span><b>Dinner</b></p></div></a>",
+      "css": ".ds-card { display: grid; max-width: 360px; background: var(--panel, #fff); color: var(--ink, #0a0a0a); text-decoration: none; font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-card:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgb(10 10 10 / 0.08), 0 18px 32px -22px rgb(10 10 10 / 0.45); } .ds-card:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 4px; } .ds-card-photo { aspect-ratio: 4 / 3; background: var(--field-deep, #d6dade); } .ds-card-bar { position: relative; z-index: 1; justify-self: start; height: 34px; margin: -17px 0 0 1rem; padding: 0.5rem 0.75rem; background: var(--cat-salan, #ff6b1a); color: var(--ink, #0a0a0a); font-weight: 800; font-size: 0.9375rem; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.2; } .ds-card-body { display: grid; gap: 0.25rem; padding: 0.75rem 1rem 1.5rem; } .ds-card-body h3 { margin: 0; font-size: 1.3125rem; font-weight: 800; letter-spacing: -0.015em; line-height: 1.15; } .ds-card-urdu { margin: 0; justify-self: start; font-family: 'Nastaliq Names', 'Noto Nastaliq Urdu', serif; font-weight: 700; font-size: 1.125rem; line-height: 1.7; color: var(--ink-soft, #3d4248); } .ds-card-facts { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0; font-size: 0.9375rem; color: var(--ink-soft, #3d4248); }"
+    },
+    {
+      "name": "Category Bars",
+      "kind": "custom",
+      "refersTo": "category-bar",
+      "description": "Signature filter: each fill drawn to count over the largest count; the chosen bar wipes to full width with an ink down arrow tab, the others drop to a full colour strip at their own length.",
+      "html": "<div class=\"ds-bars has-choice\"><button class=\"ds-bar\" style=\"--cat: #ffd400; --len: 20%\" aria-pressed=\"false\"><span class=\"ds-fill\"></span><span class=\"ds-lab\">Rice <small>1</small></span></button><button class=\"ds-bar\" style=\"--cat: #ff6b1a; --len: 100%\" aria-pressed=\"true\"><span class=\"ds-fill\"></span><span class=\"ds-lab\">Salan and karahi <small>5</small></span><span class=\"ds-bar-tab\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M12 4v15\"/><path d=\"M6 13l6 6 6-6\"/></svg></span></button><button class=\"ds-bar\" style=\"--cat: #00b7ff; --len: 40%\" aria-pressed=\"false\"><span class=\"ds-fill\"></span><span class=\"ds-lab\">BBQ and fried <small>2</small></span></button></div>",
+      "css": ".ds-bars { display: grid; gap: 0.5rem; padding: 1rem; background: var(--field, #e6e9ec); font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; } .ds-bar { --fill: max(3.5rem, var(--len)); position: relative; display: flex; align-items: center; justify-content: space-between; min-height: 3.5rem; padding: 0 0 0 1rem; border: 0; background: transparent; color: var(--ink, #0a0a0a); text-align: left; isolation: isolate; cursor: pointer; } .ds-fill { position: absolute; inset: 0; z-index: -1; background: var(--cat); clip-path: inset(0 calc(100% - var(--fill)) 0 0); transition: clip-path 460ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-bar::after { content: ''; position: absolute; inset: auto 0 0 0; height: 2px; background: var(--field-deep, #d6dade); z-index: -2; } .ds-lab { font-weight: 850; font-size: 1.3125rem; letter-spacing: -0.01em; } .ds-lab small { margin-left: 0.5rem; font-weight: 600; font-size: 0.9375rem; font-variant-numeric: tabular-nums; } .ds-bar:hover .ds-fill { clip-path: inset(0 calc(100% - var(--fill) - 1.5rem) 0 0); } .ds-bar[aria-pressed='true'] .ds-fill { clip-path: inset(0 0 0 0); } .has-choice .ds-bar[aria-pressed='false'] .ds-fill { clip-path: inset(74% calc(100% - var(--fill)) 0 0); } .ds-bar-tab { display: grid; place-items: center; align-self: stretch; width: 3.5rem; background: var(--ink, #0a0a0a); color: var(--panel, #fff); } .ds-bar:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; } .ds-bar:active { transform: scale(0.99); }"
+    },
+    {
+      "name": "Method Steps",
+      "kind": "custom",
+      "refersTo": "step-tile",
+      "description": "Category coloured number tile; done turns the tile ink with a tick and wipes a solid 0.14em ink strike across each line at the x-height.",
+      "html": "<ol class=\"ds-steps\"><li><button class=\"ds-step\" aria-pressed=\"true\"><span class=\"ds-n\"><svg viewBox=\"0 0 24 24\" width=\"28\" height=\"28\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" stroke-linejoin=\"miter\" aria-hidden=\"true\"><path d=\"M4.5 12.5l4.5 4.5 10-10\"/></svg></span><span class=\"ds-text\">Heat the oil in a karahi on high heat. Add the chicken and fry for 5 minutes until it turns white.</span></button></li><li><button class=\"ds-step\" aria-pressed=\"false\"><span class=\"ds-n\">2</span><span class=\"ds-text\">Add the ginger garlic paste and fry for 1 minute.</span></button></li></ol>",
+      "css": ".ds-steps { display: grid; gap: 0.75rem; margin: 0; padding: 1rem; list-style: none; background: var(--field, #e6e9ec); } .ds-step { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 1rem; width: 100%; padding: 1rem; border: 0; background: var(--panel, #fff); color: var(--ink, #0a0a0a); text-align: left; font-family: 'Schibsted Grotesk', 'Segoe UI', system-ui, sans-serif; font-size: 1.3125rem; line-height: 1.5; cursor: pointer; transition: background-color 200ms ease; } .ds-step:hover { background: color-mix(in srgb, var(--panel, #fff) 70%, var(--field, #e6e9ec)); } .ds-step:focus-visible { outline: 3px solid var(--ink, #0a0a0a); outline-offset: 3px; } .ds-n { display: grid; place-items: center; width: 52px; height: 52px; background: var(--cat-salan, #ff6b1a); color: var(--ink, #0a0a0a); font-weight: 900; } .ds-text { background: linear-gradient(var(--ink, #0a0a0a), var(--ink, #0a0a0a)) no-repeat 0 56% / 0% 0.14em; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size 420ms cubic-bezier(0.23, 1, 0.32, 1), color 200ms ease; } .ds-step[aria-pressed='true'] .ds-text { background-size: 100% 0.14em; color: var(--ink-soft, #3d4248); } .ds-step[aria-pressed='true'] .ds-n { background: var(--ink, #0a0a0a); color: var(--panel, #fff); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sorting Bars",
+    "overview": "A loud modular identity in the Studio Dumbar manner, put to a quiet job. Five flat colour bars, one per kind of dish, do the sorting: the cook finds tonight's dish by colour, then cooks from a page that stays calm, white and black. Everything else is cool grey field, white panel and near black ink, set square, flat and heavy. The colour is loud precisely because it is rationed to one meaning.\n\nType is a single tight grotesk run from 400 for reading to 900 for display, with dish words sitting on their category bar and Urdu dish names in Nastaliq beside them. Corners are square everywhere. Depth is tonal: panels sit on the field, bars sit on edges and seams. Motion is a wipe, never a bounce: bars clip in from the left, a done step is struck by an ink bar that wipes across each line.\n\nDensity is generous and kitchen sized: 18px body, 21px method steps, 44 to 52px targets, and a fixed cooking bar on phones. The system refuses the white food blog grid with a pastel hero.",
+    "keyCharacteristics": [
+      "Five category colours, each meaning one kind of dish and nothing else.",
+      "Ink for every general action and every state change.",
+      "Bars live on the grey, on seams and on photo edges, never across the food.",
+      "Square corners, flat surfaces, one soft lift for hover and the welcome back banner.",
+      "One grotesk from 400 to 900, plus Nastaliq for Urdu dish names.",
+      "Authored 24px icon set, 2px square capped strokes."
+    ],
+    "rules": [
+      {
+        "name": "The One Meaning Rule",
+        "body": "A category colour means its category and nothing else. General actions are ink. If a button would work the same on any recipe, it is not allowed a category colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink On Bar Rule",
+        "body": "Text on a bar is always ink. Never white on yellow, cyan, green, orange or magenta.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dry Food Rule",
+        "body": "Bars never cross the food. Card bars are label wide and sit on the seam, half on the photo and half on the panel. Photo bars straddle the bottom edge by 12px. Only the small tilted ink square may sit on the food side.",
+        "section": "colors"
+      },
+      {
+        "name": "The Word On The Bar Rule",
+        "body": "In a dish title the category word sits on its colour bar (clone decoration, so it breaks cleanly across lines); the rest of the title stays bare ink on grey.",
+        "section": "typography"
+      },
+      {
+        "name": "The Steady Figures Rule",
+        "body": "Figures that change in place (amounts, servings, progress, counts) are tabular so nothing jumps; other figures are lining.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Panel Rule",
+        "body": "Panels rest flat. A shadow appears only for hover on a card or for the one banner that needs to float.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do give each kind of dish exactly one colour and use it only where that dish or category is named: title word bar, step tiles, card seam bar, photo corner bar, the home \"Cook this\" button.",
+      "Do keep every general action and every done state ink.",
+      "Do put text on a bar in ink, always.",
+      "Do place bars on seams and edges: card bars half on photo, half on panel; photo bars straddling the bottom edge by 12px.",
+      "Do draw category bars to count over the largest count, never shorter than the label.",
+      "Do keep corners square and borders 2px ink on anything pressable or typable.",
+      "Do use the authored 24px icon set with 2px square capped strokes for every icon.",
+      "Do pair dish and category names with their Urdu name in Nastaliq.",
+      "Do keep targets at 44px or more, and 52px for primary actions and inputs.",
+      "Do honour reduced motion: wipes and transitions collapse to instant."
+    ],
+    "donts": [
+      "Don't use a category colour on a general action (servings stepper, resume, newsletter, filters).",
+      "Don't run a bar across the food; only the small tilted ink square may sit on the photo.",
+      "Don't set white text on a category bar.",
+      "Don't round corners or use pill shapes.",
+      "Don't add shadows beyond the single lift.",
+      "Don't use a second red; errors are fix-it red on grey or white and fix-it pink on ink.",
+      "Don't use icon fonts, emoji or text glyphs as icons.",
+      "Don't add a second Latin typeface."
+    ]
+  }
+}

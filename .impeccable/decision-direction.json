@@ -1,0 +1,132 @@
+{
+  "title": "Recipe blog demo: choose the look",
+  "question": "The roll picked Sunday Food Page. Keep it, take another card, or re-roll.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Sunday Food Page",
+      "kicker": "THE ROLL",
+      "lineage": "the food page of a Pakistani Sunday newspaper magazine: column rules, bilingual headings, a recipe you clip and keep",
+      "thesis": "The blog as this week's food page: today's recipe sits above the fold, every recipe is a clipping you can cut out and keep.",
+      "palette": ["#f2efe6", "#1b1b1b", "#b3261e", "#e0a100", "#d8d2c2"],
+      "materials": ["newsprint and column rules", "a scissor-cut clipping"],
+      "viewport": "A masthead with the date, today's dish across three columns above a printed fold line, its time, servings and a Clip and keep button, the photo in full colour.",
+      "risk": "Newsprint can feel dull and old if the food photos are small or the grey takes over.",
+      "raised": [
+        { "from": "challenger-bench", "raise": "A folded flag marks the step you stopped at, and it is still there when you come back." },
+        { "from": "challenger-jackfield", "raise": "A done step is crossed out with a pen mark, not just turned another colour." },
+        { "from": "challenger-folio", "raise": "Every dish photo is set at the same crop and scale, so the index reads as one set." },
+        { "from": "challenger-dumbar", "raise": "Each category keeps one colour band everywhere: rice, karahi, sweets, chai time." },
+        { "from": "challenger-cyc", "raise": "Recipes can be browsed by time of day: sehri, lunch, chai time, dinner." },
+        { "from": "challenger-crease", "raise": "The fold line is real: what matters most sits above it." }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "Ammi’s Notebook",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "a mother's handwritten recipe copy: ruled pages, ballpoint notes in English and Urdu, a turmeric stain",
+      "thesis": "Every recipe as a page from the family notebook, with the notes your mother would add in the margin.",
+      "palette": ["#fbf6e9", "#1f3a93", "#d14b4b", "#e0a43a"],
+      "materials": ["ruled copy paper", "blue ballpoint", "a turmeric stain"],
+      "viewport": "A ruled notebook page with the dish name in blue ballpoint, the ingredients down the red margin, and the photo pasted in.",
+      "risk": "The most familiar idea for a home cooking blog; it can look like a scrapbook template."
+    },
+    {
+      "id": "challenger-bench",
+      "label": "Select Rail",
+      "verdict": "competitive",
+      "lineage": "a film editor's cutting bench: frames on a perforated rail, a tape flag where the editor stopped",
+      "thesis": "Cooking steps as frames on one rail, crossed off as you go, with a flag where you stopped.",
+      "palette": ["#0d0d0d", "#f26b1d", "#ffffff"],
+      "materials": ["film grain", "orange tape flag", "punched white windows"],
+      "viewport": "A rail of step frames across a dark orange field, the current step open in a white window.",
+      "case": "Holds product clarity (it is a great way to follow steps), but a film bench means nothing to a home cook.",
+      "risk": "Dark and technical in a kitchen.",
+      "hero": "https://impeccable.style/worlds/cards/operate-a-cutting-bench-select-rail-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/operate-a-cutting-bench-select-rail.webp"
+    },
+    {
+      "id": "challenger-jackfield",
+      "label": "Jackfield",
+      "verdict": "declined",
+      "lineage": "a studio patch bay schedule on black glass",
+      "thesis": "Recipes as numbered lanes with amber link lines.",
+      "palette": ["#0b0b0b", "#ffb000"],
+      "materials": ["black glass", "amber lines"],
+      "viewport": "Numbered amber lanes with a recipe in each.",
+      "case": "Fuses poorly: a machine room is the opposite of a kitchen.",
+      "kept": "State shown by a mark, not a colour.",
+      "risk": "Cold and hard to read.",
+      "hero": "https://impeccable.style/worlds/cards/operate-b-normalled-jackfield-hero.webp"
+    },
+    {
+      "id": "challenger-folio",
+      "label": "Botanical Folio",
+      "verdict": "declined",
+      "lineage": "a botanical plate book",
+      "thesis": "Dishes as fixed-scale plates in a folio.",
+      "palette": ["#f5efe0", "#3d5a3a", "#b22222"],
+      "materials": ["cream plates", "engraved italics"],
+      "viewport": "A row of dish plates at one scale.",
+      "case": "Fuses poorly: too formal and slow for weeknight cooking.",
+      "kept": "One scale for every plate.",
+      "risk": "Museum-like.",
+      "hero": "https://impeccable.style/worlds/cards/editorial-sequence-montage-botanical-folio-season-hero.webp"
+    },
+    {
+      "id": "challenger-dumbar",
+      "label": "Colour Bars",
+      "verdict": "declined",
+      "lineage": "a loud modular identity of colour blocks over photos",
+      "thesis": "Categories as big saturated bars over food photos.",
+      "palette": ["#00a6d6", "#e5007e", "#ffe600", "#2fb34a"],
+      "materials": ["flat colour bars", "photos"],
+      "viewport": "Colour bars stacked over a dish photo.",
+      "case": "Fuses poorly: the bars fight the food colours.",
+      "kept": "One colour per category.",
+      "risk": "Loud.",
+      "hero": "https://impeccable.style/worlds/cards/studio-dumbar-identity-hero.webp"
+    },
+    {
+      "id": "challenger-cyc",
+      "label": "Dawn Cyclorama",
+      "verdict": "declined",
+      "lineage": "a theatre backdrop lit from night to day",
+      "thesis": "Recipes along the day, from sehri dark to dinner.",
+      "palette": ["#05060a", "#1e3a8a", "#e88aa0", "#ffffff"],
+      "materials": ["stage light bands"],
+      "viewport": "Bands of light from night to day with meals in each.",
+      "case": "Fuses poorly: dramatic light hides the food.",
+      "kept": "Browsing by time of day.",
+      "risk": "Dark and theatrical.",
+      "hero": "https://impeccable.style/worlds/cards/stagecraft-theater-lighting-cyclorama-dawn-hero.webp"
+    },
+    {
+      "id": "challenger-crease",
+      "label": "Curved Crease",
+      "verdict": "declined",
+      "lineage": "paper folded along one curved crease",
+      "thesis": "The page laid out along one sweeping fold.",
+      "palette": ["#f4efe4", "#2b2b2b"],
+      "materials": ["cotton paper", "graphite shadow"],
+      "viewport": "One curved fold dividing the page.",
+      "case": "Fuses poorly: elegant, but nothing to do with food.",
+      "kept": "One fold line that organizes the page.",
+      "risk": "Abstract.",
+      "hero": "https://impeccable.style/worlds/cards/paper-folds-pleats-deployable-curved-crease-shell-hero.webp"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "buildPath": { "value": "code" },
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "A clean white food blog with big photos, done very well.",
+    "palette": ["#ffffff", "#222222", "#e4572e"],
+    "materials": ["white space", "big food photos", "recipe cards"],
+    "viewport": "A grid of large dish photos with titles and cooking times, a search bar on top.",
+    "risk": "Looks like every other food blog."
+  },
+  "steer": true
+}
